@@ -1,261 +1,210 @@
-<html lang='en'>
-    <head>
-        <meta charset='utf-8'>
-        <meta name='viewport' content='width=device-width'>
-        <title>ZAP Demo</title>
-        <style>
-            body {background-color: #0d1117; }
-            h1 {color: #cdb4db; text-align: center;}
-            h2 {color: #ffafcc; text-align: center;}
-            h3 {color: #ffc8dd; text-align: center; text-decoration: underline;}
-            .brighter {color: #bde0fe;}
-            p {color: #ffc927; padding-left: 50px; margin-right: 50px;}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script src="showdown.min.js"></script>
 
-            label {color: #B0B0B0;}
-            a {color: #ffc927; padding-left:15px;}
-            input {color: #B06060; margin-bottom: 20px; font-weight: bold; }
-            textarea {
-                background-color:#181818;
-                color: #cdb4db;
-                font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
-                font-size: 1em;
-                border-radius: 12px;
-                border: 2px solid #cdb4db;
-                padding: 15px;
-                margin-top: 10px;
-                width: 80%;
-                height: 18rem;
+    <title>ZAP-Chat</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #cd0f0d;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            /* height: 500px; */
+            height: calc(100vh - 260px);
+            margin-top: 2rem;
+            overflow-y: auto;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            /* font-size: 1.2rem; */
+        }
+
+        .bot {
+            align-self: flex-start;
+            background-color: #e0e0e0;
+        }
+
+        .user {
+            align-self: flex-end;
+            background-color: #cd0f0d;;
+            color: white;
+        }
+
+        .busy-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
             }
-            form {
-                border: 2px solid #cdb4db;
-                border-radius: 12px;
-                padding: 15px;
-                margin-top: 10px;
-                font-size: 1em;
-                width: 400px;
-                text-align: center;
-                justify-content: center;
+            100% {
+                transform: rotate(360deg);
             }
-            .tdform {
-                border: none;
-                border-radius: none;
-                padding: 2px;
-                margin-top: 0px;
-                font-size: 1em;
-                width: auto;
-                text-align: center;
-                justify-content: center;
-            }
-            button {
-                background-color: #ffafcc;
-                border-radius: 12px;
-                border: 2px solid #cdb4db;
-                padding-left: 20px;
-                padding-right: 20px;
-                padding-top: 5px;
-                padding-bottom: 5px;
-            }
-            .updatebutton {
-                background-color: #B0B0B0;
-                color: #181818;
-            }
-            .delbutton {
-                background-color: #B06060;
-                color: white;
-            }
-            .center {
-                display: flex;
-                justify-content: center;
-            }
-            table {
-                background-color:#181818;
-                border-radius: 12px;
-                padding: 12px;
-            }
-            th {
-                color: #B06060;
-                padding: 15px;
-            }
-            td {
-                color: #B0B0B0;
-            }
-            tr {
-            }
-        </style>
-<html>
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            position: fixed;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            background-color: #f0f0f0;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-bottom: 0.8rem;
+            padding-top: 1rem;
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+            /* box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); */
+        }
+
+        .input-container input {
+            flex-grow: 1;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid #cd0f0d;
+            outline: none;
+            /* font-size: 1.2rem; */
+        }
+
+        .input-container button {
+            background-color: #cd0f0d;;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            margin-left: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-container button:hover {
+            background-color: #A20000;
+        }
+
+        .status-bar {
+            background-color: #8B0000;
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            position: fixed;
+            /*   bottom: 60px;   */
+            left: 0;
+            right: 0;
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+            /* border-top-left-radius: 10px; */
+            /* border-top-right-radius: 10px; */
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-online {
+            /* Green, MediumSeaGreen */
+            background-color: #3CB371;
+        }
+        .status-busy {
+            /* Blue, DodgerBlue */
+            background-color: #1E90FF;
+        }
+        .status-thinking {
+            /* Light Gray, LightSlateGray */
+            background-color: #778899;
+        }
+        .status-offline {
+            /* Red, Tomato */
+            background-color: #FF6347;
+        }
+        .status-warning {
+            /* Yellow, Goldenrod */
+            background-color: #DAA520;
+        }
+        .status-error {
+            /* Dark-Red, Firebrick */
+            background-color: #B22222;
+        }
+
+    </style>
+    </head>
     <body>
-        <div class="center">
-            <form >
-                <div>
-                    <label>First name:</label><br>
-                    <input id="first_name"></input>
-                </div>
-                <div>
-                    <label>Last name:</label><br>
-                    <input id="last_name"></input>
-                </div>
-                <div >
-                    <button type="button" onclick="onNewUser();">Add new user!</button>
-                </div>
-            </form>
-        </div>
-        <div class="center">
-            <table id="usertable">
-            </table>
-        </div>
-        <div class="center">
-            <p><a href="/users">Show JSON for all users</a></p>
-        </div>
-        <div style="padding:20px; margin-top: 1rem;">
-            <label style="margin-bottom: 10px;">Log Output:</label>
-            <a id="logtoggler" onclick="toggleLog();" href="#">(show)</a>
-            <div class="center">
-                <textarea id="log" style="display:none"></textarea>
+        <div class="container">
+            <header>
+                <h1>ZAP-Chat</h1>
+            </header>
+            <div class="chat-container" id="chat-container">
+                <!-- ... -->
+
+                <!-- ... -->
             </div>
+
+            <div class="status-bar .status-offline" id="statusBar">Connecting...</div>
+
+            <div class="input-container">
+                <input id="prompt-input" type="text" placeholder="Type your message...">
+                <button id="send-button">Send</button>
+            </div>
+
         </div>
-    <script>
-        var eL = document.getElementById("log");
-        var eLt = document.getElementById("logtoggler");
 
-        var showLog = false;
-
-        function toggleLog() {
-            if(showLog) {
-                eL.style.display = "none";
-                eLt.textContent = "(show)";
-            } else {
-                eL.style.display = "block";
-                eLt.textContent = "(hide)";
-            }
-            showLog = !showLog;
-        }
-        function log(s) {
-            eL.value += s.toString();
-            eL.value += "\n"
-            eL.scrollTop = eL.scrollHeight;
-        }
-
-        function sendJSON(data, slug, method="POST") {
-            json = JSON.stringify(data);
-            log("SENDING: " + json);
-            const response = fetch(slug, {
-                method: method,
-                body: json,
-                headers: {
-                    "Content-Type": "application/json; charset=UTF-8"
-                }
-            });
-            return response;
-        }
-
-        function onNewUser() {
-            var first_name = document.getElementById("first_name").value;
-            var last_name = document.getElementById("last_name").value;
-            data = {
-                first_name: first_name,
-                last_name: last_name,
-            }
-            sendJSON(data, "/users", "POST")
-            .then((response) => response.json())
-            .then((data) => {
-                log("SUCESS: " + JSON.stringify(data));
-                getUserList();
-            })
-            .catch((error) => {
-                log("Error posting data");
-            });
-        }
-
-        function deleteUser(id) {
-            fetch("/users/" + id, { method: "DELETE", } )
-            .then((response) => response.json())
-            .then((data) => {
-                log("SUCESS: " + JSON.stringify(data));
-                getUserList();
-            })
-            .catch((error) => {
-                log("Error deleting data");
-            });
-        }
-
-        function changeUser(id) {
-            const firstname = document.getElementById("first_" + id).value;
-            const lastname = document.getElementById("last_" + id).value;
-            data = {
-                first_name: firstname,
-                last_name: lastname,
-            }
-            sendJSON(data, "/users/" + id, "PATCH")
-            .then((response) => response.json())
-            .then((data) => {
-                log("SUCESS: " + JSON.stringify(data));
-                getUserList();
-            })
-            .catch((error) => {
-                log("Error updating data");
-            });
-        }
-
-        function addHeaderCell(tr, text) {
-            var th = document.createElement('TH');
-            th.innerHTML = text;
-            tr.appendChild(th);
-        }
-
-        function showTable(users) {
-            var t = document.getElementById("usertable");
-            var new_t = document.createElement("TABLE");
-            var header = new_t.createTHead();
-            var tr = header.insertRow();
-            // insertCell creates TD, we want TH
-            addHeaderCell(tr, 'id');
-            addHeaderCell(tr, 'first name');
-            addHeaderCell(tr, 'last name');
-            addHeaderCell(tr, '');
-            addHeaderCell(tr, '');
-
-            console.log("showTable()");
-            console.log(users);
-            // add the data rows
-            for(var i=0; i<users.length; i++) {
-                var row = new_t.insertRow();
-                var c1 = row.insertCell();
-                c1.innerHTML = users[i].id;
-                var c2 = row.insertCell();
-                c2.innerHTML = '<input id="first_' + users[i].id + '" value="' + users[i].first_name + '"></input>';
-                var c3 = row.insertCell();
-                c3.innerHTML = '<input id="last_' + users[i].id + '" value="' + users[i].last_name + '"></input>';
-                var c4 = row.insertCell();
-                c4.innerHTML = ''
-                    + '<form class="tdform"><button  class="updatebutton" type="button" onclick="changeUser(' + users[i].id + ');">change</button></form>'
-                ;
-                var c5 = row.insertCell();
-                c5.innerHTML = ''
-                    + '<form class="tdform"><button class="delbutton" type="button" onclick="deleteUser(' + users[i].id + ');">del</button></form>'
-                ;
-            }
-            console.log("before replace");
-            t.innerHTML = new_t.innerHTML;
-            console.log("after replace");
-        }
-
-
-        function getUserList() {
-            fetch("/users", { method: "GET", } )
-            .then((response) => response.json())
-            .then((data) => {
-                log("SUCESS: " + JSON.stringify(data));
-                showTable(data);
-            })
-            .catch((error) => {
-                log("Error fetching data");
-            });
-        }
-
-        function init() {
-            getUserList();
-        }
-        init();
-    </script>
+        <!-- Load the script and start executing -->
+        <script>
+            var header = document.getElementById('header');
+            var scriptTag = document.createElement("script");
+            scriptTag.src = "index.js?version=0";
+            scriptTag.type = "module";
+            document.head.appendChild(scriptTag);
+        </script>
     </body>
 </html>
