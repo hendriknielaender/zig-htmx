@@ -125,10 +125,10 @@ fn handle_websocket_message(
     _ = handle;
     if (context) |ctx| {
         // send message
-        const buflen = 128; // arbitrary len
+        const buflen = 999999; // arbitrary len
         var buf: [buflen]u8 = undefined;
 
-        const format_string = "{s}: {s}";
+        const format_string = "<div id=idMessage>{s}: {s}</div>";
         const fmt_string_extra_len = 2; // ": " between the two strings
         //
         const max_msg_len = buflen - ctx.userName.len - fmt_string_extra_len;
