@@ -2,6 +2,19 @@ const std = @import("std");
 const zap = @import("zap");
 const WebSockets = zap.WebSockets;
 
+const Headers = struct {
+    HX_Request: []u8,
+    HX_Trigger: []u8,
+    HX_Trigger_Name: ?[]u8, // nullable since it can be null
+    HX_Target: []u8,
+    HX_Current_URL: []u8,
+};
+
+const Message = struct {
+    message: []u8,
+    HEADERS: Headers,
+};
+
 const Context = struct {
     userName: []const u8,
     channel: []const u8,
@@ -140,17 +153,32 @@ fn handle_websocket_message(
             if (message.len > max_msg_len) {
                 trimmed_message = message[0..max_msg_len];
             }
+
             const chat_message = std.fmt.bufPrint(
                 &buf,
                 format_string,
                 .{ ctx.userName, trimmed_message },
             ) catch unreachable;
 
+            std.log.info("JSON String: {s}", .{trimmed_message});
+
+            const allocator = std.heap.page_allocator;
+            const parsed = std.json.parseFromSlice(Message, allocator, trimmed_message, .{ .ignore_unknown_fields = true }) catch |err| {
+                std.log.err("JSON parsing error: {any}", .{err});
+                return;
+            };
+            defer parsed.deinit();
+
+            const chat = parsed.value;
+
+            std.log.info("{any}", .{chat});
+
             // send notification to all others
             WebsocketHandler.publish(
-                .{ .channel = ctx.channel, .message = chat_message },
+                .{ .channel = ctx.channel, .message = chat.message },
             );
             std.log.info("{s}", .{chat_message});
+            std.log.info("{s}", .{trimmed_message});
         } else {
             std.log.warn(
                 "Username is very long, cannot deal with that size: {d}",
