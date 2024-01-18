@@ -141,7 +141,7 @@ fn handle_websocket_message(
         const buflen = 999999; // arbitrary len
         var buf: [buflen]u8 = undefined;
 
-        const format_string = "<div id=idMessage>{s}: {s}</div>";
+        const format_string = "<div id=message hx-swap-oob=beforeend><div class=ml-0><span class=font-bold>{s}:</span> <span>{s}</span></div></div>";
         const fmt_string_extra_len = 2; // ": " between the two strings
         //
         const max_msg_len = buflen - ctx.userName.len - fmt_string_extra_len;

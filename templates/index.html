@@ -3,9 +3,8 @@
 <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
 
 <div hx-ext="ws" ws-connect="/chat">
-    <div id="notifications"></div>
-    <div id="chat_room">
-        ...
+    <div id="message" hx-swap-oob="beforeend">
+        New message received
     </div>
     <form id="form" ws-send>
         <h3>Send a Message</h3>
@@ -14,7 +13,4 @@
             <input type="submit" value="Send" class="btn primary"/>
         </div>
     </form>
-    <br>
-    <h3>Receive a Message</h3>
-    <div id="idMessage"></div>
 </div>

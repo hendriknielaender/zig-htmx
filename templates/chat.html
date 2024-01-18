@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zig HTMX Chat</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="place-items-center bg-gray-800 p-4 flex justify-center items-center">
+<div class="w-full max-h-full max-w-2xl bg-gray-900 rounded-lg shadow-lg overflow-hidden">
+<div hx-ext="ws" ws-connect="/chat">
+<div class="flex flex-col h-full bg-[#0e0e10] text-white">
+    <div class="flex-1 overflow-y-auto p-4 space-y-2">
+        <div id="message" class="flex items-center space-x-2" hx-swap-oob="beforeend">
+            <span class="font-bold">PRE5L:</span><span>hey arrow</span>
+        </div>
+
+        <form id="form" ws-send>
+            <div class="flex items-center px-4 py-2 bg-[#18181b]">
+                <input name="message" class="flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 mx-4 bg-transparent border-none placeholder-gray-400 focus:ring-0" placeholder="Send a message">
+            </div>
+            <button type="submit" class="h-8 px-4 m-2 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800">
+                Chat
+            </button>
+        </form>
+    </div>
+</div>
+</div>
+</body>
+<style>
+#message {
+    display: block;
+}
+.space-x-2>:not([hidden])~:not([hidden]) {
+    margin-left: 0px !important;
+}
+</style>
+</html>
+
