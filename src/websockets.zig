@@ -138,7 +138,7 @@ fn handle_websocket_message(
     _ = handle;
     if (context) |ctx| {
         // send message
-        const buflen = 999999; // arbitrary len
+        const buflen = 999; // arbitrary len
         var buf: [buflen]u8 = undefined;
 
         const format_string = "<div id=message hx-swap-oob=beforeend><div class=ml-0><span class=font-bold>{s}:</span> <span>{s}</span></div></div>";
