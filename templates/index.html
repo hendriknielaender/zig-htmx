@@ -13,15 +13,17 @@
 <div hx-ext="ws" ws-connect="/chat">
 <div class="flex flex-col h-full bg-[#0e0e10] text-white">
     <div class="flex-1 overflow-y-auto p-4 space-y-2">
-        <div id="message" class="flex items-center space-x-2" hx-swap-oob="beforeend"></div>
+        <div id="message" class="flex items-center space-x-2" hx-swap-oob="beforeend">
+
+        </div>
 
         <form id="form" ws-send>
-            <div class="flex items-center px-4 py-2 bg-[#18181b]">
-                <input name="message" class="flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 mx-4 bg-transparent border-none placeholder-gray-400 focus:ring-0" placeholder="Send a message">
+            <div class="flex items-center py-2">
+                <input name="message" class="flex bg-black h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 bg-transparent border-none placeholder-gray-400 focus:ring-0" placeholder="Send a message">
+                <button type="submit" class="h-8 ml-2 px-6 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-md focus:shadow-outline hover:bg-indigo-800">
+                    Chat
+                </button>
             </div>
-            <button type="submit" class="h-8 px-4 m-2 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800">
-                Chat
-            </button>
         </form>
     </div>
 </div>
