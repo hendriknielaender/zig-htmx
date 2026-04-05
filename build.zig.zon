@@ -1,21 +1,16 @@
 .{
-    .name = "zig-htmx",
+    .name = .zig_htmx,
     .version = "0.0.1",
+    .minimum_zig_version = "0.15.2",
+    .fingerprint = 0xcac9cf7b3ed55ae5,
 
     .dependencies = .{
-        .zap = .{ .url = "https://github.com/zigzap/zap/archive/23b70b8881fa704d3ff73480c2309a71a4c0bd58.tar.gz", .hash = "12209c908eff51fa4e68dd4a14eca9ff8aecef6155ece65942fe01ce606530363f9c" },
+        .zap = .{
+            .url = "git+https://github.com/zigzap/zap?ref=v0.11.0#66c5dc42c781bbb8a9100afda3c7e69ee96eddf3",
+            .hash = "zap-0.10.6-GoeB8xCEJABLgoiZjWZMMT5TsoZ5OO2EZe6j24RTUYEH",
+        },
     },
     .paths = .{
-        // This makes *all* files, recursively, included in this package. It is generally
-        // better to explicitly list the files and directories instead, to insure that
-        // fetching from tarballs, file system paths, and version control all result
-        // in the same contents hash.
         "",
-        // For example...
-        //"build.zig",
-        //"build.zig.zon",
-        //"src",
-        //"LICENSE",
-        //"README.md",
     },
 }

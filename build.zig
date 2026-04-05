@@ -6,13 +6,18 @@ pub fn build(b: *std.Build) void {
 
     const exe = b.addExecutable(.{
         .name = "zig-htmx",
-        .root_source_file = .{ .path = "src/websockets.zig" },
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/websockets.zig"),
+            .target = target,
+            .optimize = optimize,
+            .imports = &.{},
+        }),
     });
+
     const zap = b.dependency("zap", .{
         .target = target,
         .optimize = optimize,
+        .openssl = false, // set to true to enable TLS support
     });
     exe.root_module.addImport("zap", zap.module("zap"));
     exe.linkLibrary(zap.artifact("facil.io"));
