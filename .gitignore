@@ -6,3 +6,4 @@ zig-out
 .DS_Store
 flake.nix
 flake.lock
+zig-pkg
