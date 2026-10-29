@@ -1,16 +1,20 @@
 .{
     .name = .zig_htmx,
     .version = "0.0.1",
-    .minimum_zig_version = "0.15.2",
+    .minimum_zig_version = "0.17.0",
     .fingerprint = 0xcac9cf7b3ed55ae5,
 
     .dependencies = .{
-        .zap = .{
-            .url = "git+https://github.com/zigzap/zap?ref=v0.11.0#66c5dc42c781bbb8a9100afda3c7e69ee96eddf3",
-            .hash = "zap-0.10.6-GoeB8xCEJABLgoiZjWZMMT5TsoZ5OO2EZe6j24RTUYEH",
+        .baz = .{
+            .url = "git+https://github.com/technologylab-ai/baz#8c8a3edf5363492d6cf7aaba5c535920cd9b5e7e",
+            .hash = "baz-0.1.0-q-QL0xG3ZwAOzcf76C5Brs4SBzn_ktG0j2xBdYU_xTmU",
         },
     },
     .paths = .{
-        "",
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "LICENSE",
+        "README.md",
     },
 }
